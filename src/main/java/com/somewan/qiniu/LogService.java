@@ -82,6 +82,9 @@ public class LogService {
                 } else {
                     record(machine, dc, dcLog);
                     count ++;
+                    if (count % 100000 == 0) {
+                        logger.info("file:{}; count:{}", file.getName(), count);
+                    }
                 }
             }
             fileService.close();

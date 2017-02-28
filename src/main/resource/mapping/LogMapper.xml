@@ -33,4 +33,23 @@
         (#{l.time}, #{l.time_stamp}, #{l.method}, #{l.url}, #{l.request_key}, #{l.request_from}, #{l.request_to}, #{l.length}, #{l.response_code}, #{l.message}, #{l.take})
     </insert>
 
+    <select id="selectLog" resultType="com.somewan.qiniu.model.DcLog">
+        <choose>
+            <when test="machine == 'nb252' and dc == 'dc3'">
+                select request_key, length from nb252_dc3
+            </when>
+            <when test="machine == 'nb252' and dc == 'dc9'">
+                select request_key, length from nb252_dc9
+            </when>
+            <when test="machine == 'xs300' and dc == 'dc3'">
+                select key, length from xs300_dc3
+            </when>
+            <when test="machine == 'xs300' and dc == 'dc9'">
+                select request_key, length from xs300_dc9
+            </when>
+        </choose>
+        <!--少了一个排序-->
+        where method = 0 and response_code = 200 and time_stamp &gt;= #{begin} and time_stamp &lt; #{end}
+    </select>
+
 </mapper>
