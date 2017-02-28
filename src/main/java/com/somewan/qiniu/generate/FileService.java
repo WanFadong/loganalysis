@@ -1,4 +1,4 @@
-package com.somewan.qiniu;
+package com.somewan.qiniu.generate;
 
 import java.io.BufferedReader;
 import java.io.File;

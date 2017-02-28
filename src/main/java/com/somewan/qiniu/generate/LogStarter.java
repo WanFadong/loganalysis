@@ -1,4 +1,4 @@
-package com.somewan.qiniu;
+package com.somewan.qiniu.generate;
 
 /**
  * Created by wan on 2017/2/27.

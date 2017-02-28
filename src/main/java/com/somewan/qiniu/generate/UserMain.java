@@ -1,4 +1,4 @@
-package com.somewan.qiniu;
+package com.somewan.qiniu.generate;
 
 import com.alibaba.fastjson.JSON;
 import com.somewan.qiniu.model.User;

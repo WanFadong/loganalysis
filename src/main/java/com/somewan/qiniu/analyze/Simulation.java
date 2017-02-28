@@ -18,9 +18,10 @@ import java.util.List;
  */
 public class Simulation {
     private static final Logger logger = LogManager.getLogger();
-    private static final long LOG_BEGIN = 14879277589146833L;// 2017/2/24 17:15:58
-    private static final long LOG_END = 14881920605004773L;// 2017/2/27 18:41:00
-    private static final int INTERVAL = 600000000;// 1min
+    private static final long ID_BEGIN = 1L;// 2017/2/24 17:15:58
+    private static final long ID_END = 10914035L;// 2017/2/27 18:41:00
+    private static final int INTERVAL = 3000;//
+
     private static final long MAX_MEM = 2684354560L;// 2.5G,= 256K * 10240条
 
     private DcLogDao dcLogDao;
@@ -46,11 +47,11 @@ public class Simulation {
     public String simulate() {
         String machine = "nb252";
         String dc = "dc3";
-        long begin = LOG_BEGIN;
-        long end = LOG_BEGIN;
+        long begin = ID_BEGIN;
+        long end = ID_BEGIN;
 
         // 需要这个等于号。因为取出的数据不包括 end。
-        while(end <= LOG_END) {
+        while(end <= 500000) {
             end = begin + INTERVAL;
             List<DcLog> logList = dcLogDao.selectLog(machine, dc, begin, end);
             simulatePartLog(logList);
@@ -60,7 +61,7 @@ public class Simulation {
     }
 
     private void simulatePartLog(List<DcLog> logList){
-        System.out.println("log list size: " + logList.size());
+        //System.out.println("log list size: " + logList.size());
         for(DcLog log: logList) {
             String key = log.getRequest_key();
             int length = log.getLength();

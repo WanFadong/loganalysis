@@ -48,8 +48,7 @@
                 select request_key, length from xs300_dc9
             </when>
         </choose>
-        <!--少了一个排序-->
-        where method = 0 and response_code = 200 and time_stamp &gt;= #{begin} and time_stamp &lt; #{end}
+        where id &gt;= #{begin} and id &lt; #{end} and method = 0 and response_code = 200 order by id
     </select>
 
 </mapper>

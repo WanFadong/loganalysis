@@ -1,4 +1,4 @@
-package com.somewan.qiniu;
+package com.somewan.qiniu.generate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.somewan.qiniu.dao.DcLogDao;
