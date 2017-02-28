@@ -36,7 +36,7 @@
     <select id="selectLog" resultType="com.somewan.qiniu.model.DcLog">
         <choose>
             <when test="machine == 'nb252' and dc == 'dc3'">
-                select request_key, length from nb252_dc3
+                select method, response_code, request_key, length from nb252_dc3
             </when>
             <when test="machine == 'nb252' and dc == 'dc9'">
                 select request_key, length from nb252_dc9
@@ -48,7 +48,7 @@
                 select request_key, length from xs300_dc9
             </when>
         </choose>
-        where id &gt;= #{begin} and id &lt; #{end} and method = 0 and response_code = 200 order by id
+        where id &gt;= #{begin} and id &lt; #{end} order by id
     </select>
 
 </mapper>

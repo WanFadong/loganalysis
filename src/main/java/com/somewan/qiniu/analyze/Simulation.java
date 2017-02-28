@@ -65,7 +65,11 @@ public class Simulation {
         for(DcLog log: logList) {
             String key = log.getRequest_key();
             int length = log.getLength();
-            lru.getKey(key, length);
+            int method = log.getMethod();
+            int code = log.getResponse_code();
+            if (method == 0 && code == 200) {
+                lru.getKey(key, length);
+            }
         }
     }
 
