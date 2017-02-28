@@ -12,7 +12,8 @@ public class LogStarter {
         int count = 0;
         for (int i = 0; i < machines.length; i++) {
             for (int j = 0; j < dcs.length; j++) {
-                count += logService.record(machines[i], dcs[j]);
+                if (i == 0 && j == 1)
+                    count += logService.record(machines[i], dcs[j]);
             }
         }
         System.out.println("一共写入日志：" + count);
