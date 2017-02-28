@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.somewan.qiniu.dao.UserDao">
+
+    <!--<resultMap id="User" type="com.somewan.qiniu.model.User">-->
+        <!--<id column="id" property="id" jdbcType="INTEGER"/>-->
+        <!--<result column="name" property="name" jdbcType="VARCHAR"/>-->
+        <!--<result column="age" property="age" jdbcType="INTEGER"/>-->
+    <!--</resultMap>-->
+
+
+    <select id="selectUser" resultType="com.somewan.qiniu.model.User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <insert id="insertUser" >
+        insert into user (birth_time, name, age) values (#{user.birth_time}, #{tableName}, #{user.age})
+    </insert>
+
+</mapper>

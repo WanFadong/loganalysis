@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.somewan.qiniu.dao.DcLogDao">
+
+    <!--<resultMap id="User" type="com.somewan.qiniu.model.User">-->
+        <!--<id column="id" property="id" jdbcType="INTEGER"/>-->
+        <!--<result column="name" property="name" jdbcType="VARCHAR"/>-->
+        <!--<result column="age" property="age" jdbcType="INTEGER"/>-->
+    <!--</resultMap>-->
+
+
+    <!--<select id="selectUser" resultType="com.somewan.qiniu.model.DcLog">-->
+        <!--SELECT * FROM user WHERE id = #{id}-->
+    <!--</select>-->
+
+    <insert id="insertLog">
+        <choose>
+            <when test="machine == 'nb252' and dc == 'dc3'">
+                insert into nb252_dc3
+            </when>
+            <when test="machine == 'nb252' and dc == 'dc9'">
+                insert into nb252_dc9
+            </when>
+            <when test="machine == 'xs300' and dc == 'dc3'">
+                insert into xs300_dc3
+            </when>
+            <when test="machine == 'xs300' and dc == 'dc9'">
+                insert into xs300_dc9
+            </when>
+        </choose>
+        (time, time_stamp, method, url, request_key, request_from, request_to, length, response_code, message, take)
+        values
+        (#{l.time}, #{l.time_stamp}, #{l.method}, #{l.url}, #{l.request_key}, #{l.request_from}, #{l.request_to}, #{l.length}, #{l.response_code}, #{l.message}, #{l.take})
+    </insert>
+
+</mapper>
