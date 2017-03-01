@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class Simulation {
     private static final Logger logger = LogManager.getLogger();
-    private static final long ID_BEGIN = 1L;// 2017/2/24 17:15:58
-    private static final long ID_END = 10914035L;// 2017/2/27 18:41:00
+    private static final long ID_BEGIN = 1L;//
+    private static final long ID_END = 11000000L;//
     private static final int INTERVAL = 3000;//
 
     private static final long MAX_MEM = 2684354560L;// 2.5G,= 256K * 10240条
@@ -28,7 +28,6 @@ public class Simulation {
     private LRUCache lru;
 
     public Simulation() {
-        lru = new LRUCache(MAX_MEM);
         try {
             String resource = "mybatis_config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -44,14 +43,13 @@ public class Simulation {
      * 对 DC 行为进行模拟
      * @return 缓存转台：缓存 get/hit/set 多少次
      */
-    public String simulate() {
-        String machine = "nb252";
-        String dc = "dc3";
+    public String simulate(String machine, String dc) {
+        lru = new LRUCache(MAX_MEM);
         long begin = ID_BEGIN;
         long end = ID_BEGIN;
 
         // 需要这个等于号。因为取出的数据不包括 end。
-        while(end <= ID_END) {
+        while(end <= 100000) {
             end = begin + INTERVAL;
             List<DcLog> logList = dcLogDao.selectLog(machine, dc, begin, end);
             simulatePartLog(logList);
@@ -71,15 +69,23 @@ public class Simulation {
                 lru.getKey(key, length);
             }
         }
-        logList = null;
+        logList = null;// 加速内存回收
     }
 
     public static void main(String[] args) {
+
         System.out.println("start");
         logger.info("start");
         Simulation simulation = new Simulation();
-        String stat = simulation.simulate();
-        System.out.println(stat);
-        logger.info("{}", stat);
+        String[] machines = {"nb252", "xs300"};
+        String[] dcs = {"dc3", "dc9"};
+        for(int i = 0; i < machines.length; i++) {
+            for(int j = 0; j < dcs.length; j++) {
+                String stat = simulation.simulate(machines[i], dcs[j]);
+                System.out.println(stat);
+                logger.info("{}", stat);
+            }
+        }
+
     }
 }
