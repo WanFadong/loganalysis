@@ -39,13 +39,13 @@
                 select method, response_code, request_key, length from nb252_dc3
             </when>
             <when test="machine == 'nb252' and dc == 'dc9'">
-                select request_key, length from nb252_dc9
+                select method, response_code, request_key, length from nb252_dc9
             </when>
             <when test="machine == 'xs300' and dc == 'dc3'">
-                select key, length from xs300_dc3
+                select method, response_code, request_key, length from xs300_dc3
             </when>
             <when test="machine == 'xs300' and dc == 'dc9'">
-                select request_key, length from xs300_dc9
+                select method, response_code, request_key, length from xs300_dc9
             </when>
         </choose>
         where id &gt;= #{begin} and id &lt; #{end} order by id

@@ -14,9 +14,10 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
+ * 通过模拟请求，分析加载数据到缓存的效果。
  * Created by wan on 2017/2/28.
  */
-public class Simulation {
+public class CacheInMem {
     private static final Logger logger = LogManager.getLogger();
     private static final long ID_BEGIN = 1L;//
     private static final long ID_END = 11000000L;//
@@ -27,7 +28,7 @@ public class Simulation {
     private DcLogDao dcLogDao;
     private LRUCache lru;
 
-    public Simulation() {
+    public CacheInMem() {
         try {
             String resource = "mybatis_config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -76,12 +77,12 @@ public class Simulation {
 
         System.out.println("start");
         logger.info("start");
-        Simulation simulation = new Simulation();
+        CacheInMem cacheInMem = new CacheInMem();
         String[] machines = {"nb252", "xs300"};
         String[] dcs = {"dc3", "dc9"};
         for(int i = 0; i < machines.length; i++) {
             for(int j = 0; j < dcs.length; j++) {
-                String stat = simulation.simulate(machines[i], dcs[j]);
+                String stat = cacheInMem.simulate(machines[i], dcs[j]);
                 System.out.println(stat);
                 logger.info("{}", stat);
             }

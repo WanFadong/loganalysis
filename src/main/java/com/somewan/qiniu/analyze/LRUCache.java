@@ -12,12 +12,12 @@ import java.util.Map;
  * Created by wan on 2017/1/25.
  */
 public class LRUCache {
-    private static final Logger logger = LogManager.getLogger(com.somewan.cache.lru.LRUCache.class);
-    private static final int LOG_DEBUG_SIZE = 100000;
+    private static final Logger logger = LogManager.getLogger();
+    private static final int LOG_DEBUG_SIZE = 10000;
     private static final int CONSLE_DEBUG_SIZE = 100000;
 
     private Deque<String> ruList;// 访问顺序链表：按使用顺序保存map中key，维护淘汰顺序。类似于先进先出。
-    private Map<String, Integer> cache;// 缓存数据容器
+    private Map<String, Integer> cache;// 缓存数据容器。key->length
     private long maxSize;
 
     // 当前的状态
@@ -25,11 +25,15 @@ public class LRUCache {
     private int get;// get 的次数
     private int hit;// hit 的次数
     private int set;// set 的次数
+    private int eliminate;// 淘汰次数
 
 
     public LRUCache(long maxSize) {
         this.maxSize = maxSize;
         this.leftSize = maxSize;
+        this.get = 0;
+        this.set = 0;
+        this.hit = 0;
         ruList = new LinkedList<String>();
         cache = new HashMap<String, Integer>();
     }
@@ -37,18 +41,18 @@ public class LRUCache {
 
     public void getKey(String key, Integer length) {
         get++;
-        log("get", get);
-        if(cache.containsKey(key)) {
+        logMilestone();
+        // 命中缓存
+        if (cache.containsKey(key)) {
             hit++;
-            log("hit", hit);
             setFreshKey(key);
             return;
         }
 
-        if(setCache(key)) {
+        // 没有命中缓存
+        if (setCache(key)) {
             set++;
-            log("set", set);
-            if(leftSize < length) {
+            if (leftSize < length) {
                 // 进行淘汰。
                 removeOldestKey(length);
             }
@@ -60,15 +64,17 @@ public class LRUCache {
 
     /**
      * 缓存策略
+     *
      * @param key
      * @return
      */
-    private boolean setCache(String key){
+    private boolean setCache(String key) {
         return true;
     }
 
     /**
      * 把最新访问(get/add)的key放到链表最前面。
+     *
      * @param key
      */
     private void setFreshKey(String key) {
@@ -84,17 +90,25 @@ public class LRUCache {
     private void removeOldestKey(int needSize) {
         while (leftSize < needSize) {
             String key = ruList.pollLast();
-            Integer length = cache.remove(key);// 在add中已经获取了mapLock
+            Integer length = cache.remove(key);
+            eliminate++;
             leftSize += length;
         }
     }
 
     public String getStat() {
-        return "get: " + get + "; hit: " + hit + "; set: " + set;
+        StringBuilder stat = new StringBuilder();
+        stat.append("get: ").append(get).append(";");
+        stat.append("hit: ").append(hit).append(";");
+        stat.append("set: ").append(set).append(";");
+        stat.append("eliminate: ").append(eliminate).append(";");
+        stat.append("ruSize: ").append(ruList.size()).append(";");
+        stat.append("cacheSize: ").append(cache.size()).append(";");
+        return stat.toString();
     }
 
-    private void log(String key, int count) {
-        if(get % LOG_DEBUG_SIZE == 0) {
+    private void logMilestone() {
+        if (get % LOG_DEBUG_SIZE == 0) {
             logger.info(getStat());
             //logger.info("cache {}: {}", key, count);
         }
