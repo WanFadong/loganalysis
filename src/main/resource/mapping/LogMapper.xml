@@ -36,16 +36,16 @@
     <select id="selectLog" resultType="com.somewan.qiniu.model.DcLog">
         <choose>
             <when test="machine == 'nb252' and dc == 'dc3'">
-                select method, response_code, request_key, length from nb252_dc3
+                select time_stamp, method, response_code, request_key, length, take from nb252_dc3
             </when>
             <when test="machine == 'nb252' and dc == 'dc9'">
-                select method, response_code, request_key, length from nb252_dc9
+                select time_stamp, method, response_code, request_key, length, take from nb252_dc9
             </when>
             <when test="machine == 'xs300' and dc == 'dc3'">
-                select method, response_code, request_key, length from xs300_dc3
+                select time_stamp, method, response_code, request_key, length, take from xs300_dc3
             </when>
             <when test="machine == 'xs300' and dc == 'dc9'">
-                select method, response_code, request_key, length from xs300_dc9
+                select time_stamp, method, response_code, request_key, length, take from xs300_dc9
             </when>
         </choose>
         where id &gt;= #{begin} and id &lt; #{end} order by id

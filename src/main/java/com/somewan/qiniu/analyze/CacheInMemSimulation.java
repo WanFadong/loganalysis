@@ -17,7 +17,7 @@ import java.util.List;
  * 通过模拟请求，分析加载数据到缓存的效果。
  * Created by wan on 2017/2/28.
  */
-public class CacheInMem {
+public class CacheInMemSimulation {
     private static final Logger logger = LogManager.getLogger();
     private static final long ID_BEGIN = 1L;//
     private static final long ID_END = 11000000L;//
@@ -28,7 +28,7 @@ public class CacheInMem {
     private DcLogDao dcLogDao;
     private LRUCache lru;
 
-    public CacheInMem() {
+    public CacheInMemSimulation() {
         try {
             String resource = "mybatis_config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -42,7 +42,7 @@ public class CacheInMem {
 
     /**
      * 对 DC 行为进行模拟
-     * @return 缓存转台：缓存 get/hit/set 多少次
+     * @return 缓存状态：缓存 get/hit/set 多少次
      */
     public String simulate(String machine, String dc) {
         lru = new LRUCache(MAX_MEM);
@@ -50,7 +50,7 @@ public class CacheInMem {
         long end = ID_BEGIN;
 
         // 需要这个等于号。因为取出的数据不包括 end。
-        while(end <= 100000) {
+        while(end <= ID_END) {
             end = begin + INTERVAL;
             List<DcLog> logList = dcLogDao.selectLog(machine, dc, begin, end);
             simulatePartLog(logList);
@@ -64,10 +64,12 @@ public class CacheInMem {
         for(DcLog log: logList) {
             String key = log.getRequest_key();
             int length = log.getLength();
+            long requestTime = log.getTime_stamp();
+            long take = log.getTake();
             int method = log.getMethod();
             int code = log.getResponse_code();
             if (method == 0 && code == 200) {
-                lru.getKey(key, length);
+                lru.getKey(key, length, requestTime, take);
             }
         }
         logList = null;// 加速内存回收
@@ -77,12 +79,15 @@ public class CacheInMem {
 
         System.out.println("start");
         logger.info("start");
-        CacheInMem cacheInMem = new CacheInMem();
+        CacheInMemSimulation cacheInMemSimulation = new CacheInMemSimulation();
         String[] machines = {"nb252", "xs300"};
         String[] dcs = {"dc3", "dc9"};
         for(int i = 0; i < machines.length; i++) {
             for(int j = 0; j < dcs.length; j++) {
-                String stat = cacheInMem.simulate(machines[i], dcs[j]);
+                if(i != 0 || j != 0) {
+                    continue;
+                }
+                String stat = cacheInMemSimulation.simulate(machines[i], dcs[j]);
                 System.out.println(stat);
                 logger.info("{}", stat);
             }
