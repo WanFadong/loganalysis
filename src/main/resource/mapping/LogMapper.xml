@@ -51,4 +51,22 @@
         where id &gt;= #{begin} and id &lt; #{end} order by id
     </select>
 
+    <select id="select404Log" resultType="com.somewan.qiniu.model.DcLog">
+        <choose>
+            <when test="machine == 'nb252' and dc == 'dc3'">
+                select method, request_key, time_stamp from nb252_dc3
+            </when>
+            <when test="machine == 'nb252' and dc == 'dc9'">
+                select method, request_key, time_stamp from nb252_dc9
+            </when>
+            <when test="machine == 'xs300' and dc == 'dc3'">
+                select method, request_key, time_stamp from xs300_dc3
+            </when>
+            <when test="machine == 'xs300' and dc == 'dc9'">
+                select method, request_key, time_stamp from xs300_dc9
+            </when>
+        </choose>
+        where id &gt;= #{begin} and id &lt; #{end} and response_code = 404 order by id
+    </select>
+
 </mapper>

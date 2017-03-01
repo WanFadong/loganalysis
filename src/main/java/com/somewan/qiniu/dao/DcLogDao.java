@@ -13,4 +13,7 @@ public interface DcLogDao {
 
     List<DcLog> selectLog(@Param("machine") String machine, @Param("dc") String dc, @Param("begin")long begin,
                              @Param("end") long end);
+
+    List<DcLog> select404Log(@Param("machine") String machine, @Param("dc") String dc, @Param("begin")long begin,
+                          @Param("end") long end);
 }
