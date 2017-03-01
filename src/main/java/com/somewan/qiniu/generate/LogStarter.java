@@ -12,7 +12,7 @@ public class LogStarter {
         int count = 0;
         for (int i = 0; i < machines.length; i++) {
             for (int j = 0; j < dcs.length; j++) {
-                if (i == 0 && j == 1)
+                if (i == 1 && j == 1)
                     count += logService.record(machines[i], dcs[j]);
             }
         }

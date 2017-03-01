@@ -13,8 +13,8 @@ import java.util.Map;
  */
 public class LRUCache {
     private static final Logger logger = LogManager.getLogger(com.somewan.cache.lru.LRUCache.class);
-    private static final int LOG_DEBUG_SIZE = 1000000;
-    private static final int CONSLE_DEBUG_SIZE = 1000;
+    private static final int LOG_DEBUG_SIZE = 100000;
+    private static final int CONSLE_DEBUG_SIZE = 100000;
 
     private Deque<String> ruList;// 访问顺序链表：按使用顺序保存map中key，维护淘汰顺序。类似于先进先出。
     private Map<String, Integer> cache;// 缓存数据容器
@@ -79,7 +79,7 @@ public class LRUCache {
     }
 
     /**
-     * 淘汰数据,腾出空进啊
+     * 淘汰数据,腾出空间
      */
     private void removeOldestKey(int needSize) {
         while (leftSize < needSize) {
@@ -94,12 +94,13 @@ public class LRUCache {
     }
 
     private void log(String key, int count) {
-        if(count % LOG_DEBUG_SIZE == 0) {
-            logger.info("cache {}: {}", key, count);
+        if(get % LOG_DEBUG_SIZE == 0) {
+            logger.info(getStat());
+            //logger.info("cache {}: {}", key, count);
         }
-        if(count % CONSLE_DEBUG_SIZE == 0) {
-            System.out.println("cache " + key + ": " + count);
-        }
+//        if(count % CONSLE_DEBUG_SIZE == 0) {
+//            System.out.println("cache " + key + ": " + count);
+//        }
     }
 
 }

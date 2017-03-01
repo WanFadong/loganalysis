@@ -51,7 +51,7 @@ public class Simulation {
         long end = ID_BEGIN;
 
         // 需要这个等于号。因为取出的数据不包括 end。
-        while(end <= 500000) {
+        while(end <= ID_END) {
             end = begin + INTERVAL;
             List<DcLog> logList = dcLogDao.selectLog(machine, dc, begin, end);
             simulatePartLog(logList);
@@ -71,6 +71,7 @@ public class Simulation {
                 lru.getKey(key, length);
             }
         }
+        logList = null;
     }
 
     public static void main(String[] args) {
@@ -79,5 +80,6 @@ public class Simulation {
         Simulation simulation = new Simulation();
         String stat = simulation.simulate();
         System.out.println(stat);
+        logger.info("{}", stat);
     }
 }
