@@ -50,7 +50,7 @@ public class CacheInMemSimulation {
         long end = ID_BEGIN;
 
         // 需要这个等于号。因为取出的数据不包括 end。
-        while(end <= ID_END) {
+        while(end <= 5000000) {
             end = begin + INTERVAL;
             List<DcLog> logList = dcLogDao.selectLog(machine, dc, begin, end);
             simulatePartLog(logList);
@@ -63,7 +63,7 @@ public class CacheInMemSimulation {
         //System.out.println("log list size: " + logList.size());
         for(DcLog log: logList) {
             String key = log.getRequest_key();
-            int length = log.getLength();
+            int length = 256 * 1024;
             long requestTime = log.getTime_stamp();
             long take = log.getTake();
             int method = log.getMethod();

@@ -40,7 +40,7 @@ public class SingleFlightSimulation {
 
     /**
      * 对 DC 行为进行模拟
-     * @return 缓存转台：缓存 get/hit/set 多少次
+     * @return 缓存状态：缓存 get/hit/set 多少次
      */
     public String simulate(String machine, String dc) {
         expiresCache = new ExpiresCache();

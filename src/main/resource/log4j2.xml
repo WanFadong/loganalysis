@@ -21,10 +21,10 @@
         </File>
         <!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingFile name="RollingFile" fileName="log/app.log"
-                     filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+                     filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36}.java %L %M - %msg%xEx%n"/>
-            <SizeBasedTriggeringPolicy size="512KB"/>
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+            <SizeBasedTriggeringPolicy size="256KB"/>
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
