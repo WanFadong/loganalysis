@@ -66,7 +66,7 @@
                 select method, request_key, time_stamp from xs300_dc9
             </when>
         </choose>
-        where id &gt;= #{begin} and id &lt; #{end} and response_code = 404 order by id
+        where time_stamp &gt;= #{begin} and time_stamp &lt; #{end} and response_code = 404 order by time_stamp ASC
     </select>
 
 </mapper>

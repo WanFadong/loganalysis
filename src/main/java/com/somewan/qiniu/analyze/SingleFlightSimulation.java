@@ -19,9 +19,10 @@ import java.util.List;
  */
 public class SingleFlightSimulation {
     private static final Logger logger = LogManager.getLogger();
-    private static final long ID_BEGIN = 1L;//
-    private static final long ID_END = 11000000L;//
-    private static final int INTERVAL = 3000;//
+    private static final long Time_BEGIN = 14878963351581871L;//
+    private static final long Time_END = 14881920611024135L;//
+    //private static final long Time_END = 14879209549366025L;//
+    private static final int INTERVAL = 30 * 60 * 10000000;//
 
     private DcLogDao dcLogDao;
     private ExpiresCache expiresCache;
@@ -44,11 +45,11 @@ public class SingleFlightSimulation {
      */
     public String simulate(String machine, String dc) {
         expiresCache = new ExpiresCache();
-        long begin = ID_BEGIN;
-        long end = ID_BEGIN;
+        long begin = Time_BEGIN;
+        long end = Time_BEGIN;
 
         // 需要这个等于号。因为取出的数据不包括 end。
-        while(end <= ID_END) {
+        while(end <= Time_END) {
             end = begin + INTERVAL;
             List<DcLog> logList = dcLogDao.select404Log(machine, dc, begin, end);
             simulatePartLog(logList);
